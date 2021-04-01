@@ -1,4 +1,4 @@
 # DNCNN
 DNCNN Pytorch implementation
 
-* Don't used patches 
+* Don't use patches 
