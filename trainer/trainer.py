@@ -90,6 +90,15 @@ class Trainer:
                     # Log the scalar values
                     writer.add_scalar('loss', loss.item(), step)
                     writer.add_scalar('PSNR on training data', psnr_train, step)
+
+                # log the images
+                Img = tvutils.make_grid(gt.data, nrow=8, normalize=True, scale_each=True)
+                Imgn = tvutils.make_grid(train_image.data, nrow=8, normalize=True, scale_each=True)
+                Irecon = tvutils.make_grid(out_train.data, nrow=8, normalize=True, scale_each=True)
+                writer.add_image('clean image', Img, epoch)
+                writer.add_image('noisy image', Imgn, epoch)
+                writer.add_image('reconstructed image', Irecon, epoch)
+                
                 step += 1
 
             self.scheduler.step()
@@ -111,14 +120,6 @@ class Trainer:
 
                     out_val = torch.clamp(val_image - preds, 0., 1.)
                     psnr_val += batch_PSNR(out_val, val_image, 1.)
-
-                    # log the images
-                    Img = tvutils.make_grid(gt.data, nrow=8, normalize=True, scale_each=True)
-                    Imgn = tvutils.make_grid(val_image.data, nrow=8, normalize=True, scale_each=True)
-                    Irecon = tvutils.make_grid(out_val.data, nrow=8, normalize=True, scale_each=True)
-                    writer.add_image('clean image', Img, epoch)
-                    writer.add_image('noisy image', Imgn, epoch)
-                    writer.add_image('reconstructed image', Irecon, epoch)
 
                 psnr_val /= len(val_dataloader)
                 print("\n[epoch %d] PSNR_val: %.4f" % (epoch + 1, psnr_val))

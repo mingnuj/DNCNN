@@ -17,10 +17,17 @@ def gaussian_noise(img):
     noise = Variable(torch.zeros(img.size()))
     noise = noise.data.normal_(mean, 1/sigma)
 
-    noise_img = img+noise
-    noise_img = torch.clamp(noise_img, 0, 1)
+    return noise
 
-    return noise_img - img
+
+def speckle_noise(img):
+    mean = 0
+    stddev = [15, 25, 50]
+    sigma = random.choice(stddev)
+    noise = Variable(torch.zeros(img.size()))
+    noise = noise.data.normal_(mean, 1/sigma) * img
+
+    return noise
 
 
 def salt_and_pepper_noise(img, s_vs_p=0.5, amount=0.05, clip=True):
@@ -37,20 +44,6 @@ def salt_and_pepper_noise(img, s_vs_p=0.5, amount=0.05, clip=True):
             noise.putpixel((coords[0][i], coords[1][i]), (0, 0, 0))
 
     return noise
-
-
-def speckle_noise(img):
-    mean = 0
-    stddev = [15, 25, 50]
-    sigma = random.choice(stddev)
-    noise = Variable(torch.zeros(img.size()))
-    noise = noise.data.normal_(mean, 1/sigma)
-
-    noise_img = img+noise
-    noise_img = torch.clamp(noise_img, 0, 1)
-
-    return noise_img - img
-
 
 def poisson_noise(img):
     return torch.poisson(img) - img
