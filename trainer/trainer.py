@@ -70,8 +70,8 @@ class Trainer:
                     param_group["lr"] = current_lr
             else:
                 current_lr = self.config["lr"]
-            print('learning rate {}\n', current_lr)
-            
+            print('learning rate {}\n'.format(current_lr))
+
             self.net.train()
 
             for i, (gt, noise) in enumerate(tqdm.tqdm(train_dataloader)):
