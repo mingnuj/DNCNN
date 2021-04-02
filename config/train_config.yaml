@@ -18,3 +18,4 @@ input_size: 180
 noise: gaussian
 lr: 0.0001
 
+load_path: /content/drive/DNCNN/checkpoint/dncnn/0.tar

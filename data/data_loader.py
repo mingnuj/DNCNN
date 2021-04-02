@@ -13,7 +13,6 @@ class ImageLoader(data.Dataset):
         self.files = []
         for image in os.listdir(self.file_path):
             self.files.append(os.path.join(self.file_path, image))
-        print(self.files)
 
     def __len__(self):
         return len(self.files)

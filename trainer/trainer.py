@@ -46,7 +46,7 @@ class Trainer:
         train_data = ImageLoader(self.config["train_data_path"], self.config["input_size"],
                                  "train",  self.config["noise"])
         val_data = ImageLoader(self.config["train_data_path"], self.config["input_size"],
-                               "val",  self.config["noise"])
+                               "validation",  self.config["noise"])
 
         train_dataloader = data.DataLoader(train_data, batch_size=self.batch_size, shuffle=True)
         val_dataloader = data.DataLoader(val_data, batch_size=self.batch_size, shuffle=True)
