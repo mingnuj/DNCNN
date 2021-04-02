@@ -94,18 +94,18 @@ class Trainer:
                 print("[epoch %d][%d/%d] loss: %.4f PSNR_train: %.4f" %
                       (epoch + 1, i + 1, len(train_dataloader), loss.item(), psnr_train))
                 # if you are using older version of PyTorch, you may need to change loss.item() to loss.data[0]
-                if step % 10 == 0:
+                if step % self.config["tb_step"] == 0:
                     # Log the scalar values
                     writer.add_scalar('loss', loss.item(), step)
                     writer.add_scalar('PSNR on training data', psnr_train, step)
 
-                # log the images
-                Img = tvutils.make_grid(gt.data, nrow=8, normalize=True, scale_each=True)
-                Imgn = tvutils.make_grid(train_image.data, nrow=8, normalize=True, scale_each=True)
-                Irecon = tvutils.make_grid(out_train.data, nrow=8, normalize=True, scale_each=True)
-                writer.add_image('clean image', Img, epoch)
-                writer.add_image('noisy image', Imgn, epoch)
-                writer.add_image('reconstructed image', Irecon, epoch)
+                    # log the images
+                    Img = tvutils.make_grid(gt.data, nrow=8, normalize=True, scale_each=True)
+                    Imgn = tvutils.make_grid(train_image.data, nrow=8, normalize=True, scale_each=True)
+                    Irecon = tvutils.make_grid(out_train.data, nrow=8, normalize=True, scale_each=True)
+                    writer.add_image('clean image', Img, epoch)
+                    writer.add_image('noisy image', Imgn, epoch)
+                    writer.add_image('reconstructed image', Irecon, epoch)
                 
                 step += 1
 
