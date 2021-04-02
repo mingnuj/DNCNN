@@ -2,7 +2,7 @@ import torch.nn as nn
 
 
 class DNCNN(nn.Module):
-    def __init__(self, in_planes=3, blocks=17, hidden=64, kernel_size=3, padding=0, bias=False):
+    def __init__(self, in_planes=3, blocks=17, hidden=64, kernel_size=3, padding=1, bias=False):
         super(DNCNN, self).__init__()
         self.conv_f = nn.Conv2d(in_channels=in_planes, out_channels=hidden, kernel_size=kernel_size, padding=padding, bias=bias)
         self.conv_h = nn.Conv2d(in_channels=hidden, out_channels=hidden, kernel_size=kernel_size, padding=padding, bias=bias)

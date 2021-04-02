@@ -31,7 +31,7 @@ class Trainer:
         # loss
         self.criterion = nn.MSELoss(reduction='sum')
 
-        self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=5, gamma=0.5)
+        # self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=5, gamma=0.5)
 
         if self.use_cuda:
             self.net.to(self.device_ids[0])
@@ -64,6 +64,14 @@ class Trainer:
             print('Epoch {}/{}'.format(epoch + 1, self.config["epoch"]))
             print('-' * 10)
 
+            if epoch >= 30:
+                current_lr = self.config["lr"] / 10.
+                for param_group in self.optimizer.param_groups:
+                    param_group["lr"] = current_lr
+            else:
+                current_lr = self.config["lr"]
+            print('learning rate {}\n', current_lr)
+            
             self.net.train()
 
             for i, (gt, noise) in enumerate(tqdm.tqdm(train_dataloader)):
@@ -101,7 +109,7 @@ class Trainer:
                 
                 step += 1
 
-            self.scheduler.step()
+            # self.scheduler.step()
 
             torch.save(self.net.module.state_dict(), os.path.join(self.config["save_path"], "{}.tar".format(epoch)))
             print("saved at {}".format(os.path.join(self.config["save_path"], "{}.tar".format(epoch))))
