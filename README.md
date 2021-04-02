@@ -6,6 +6,6 @@ DNCNN Pytorch implementation
 * Test code will be added.
 
 # Paper
-Beyond a Gaussian Denoiser: Residual Learningof Deep CNN for Image Denoising
----
+Beyond a Gaussian Denoiser: Residual Learningof Deep CNN for Image Denoising  
+
 https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7839189
