@@ -91,9 +91,7 @@ class Trainer:
                 self.net.eval()
                 out_train = torch.clamp(train_image - self.net(train_image), 0., 1.)
                 psnr_train = batch_PSNR(out_train, train_image, 1.)
-                print("[epoch %d][%d/%d] loss: %.4f PSNR_train: %.4f" %
-                      (epoch + 1, i + 1, len(train_dataloader), loss.item(), psnr_train))
-                # if you are using older version of PyTorch, you may need to change loss.item() to loss.data[0]
+
                 if step % self.config["tb_step"] == 0:
                     # Log the scalar values
                     writer.add_scalar('loss', loss.item(), step)
@@ -106,6 +104,8 @@ class Trainer:
                     writer.add_image('clean image', Img, epoch)
                     writer.add_image('noisy image', Imgn, epoch)
                     writer.add_image('reconstructed image', Irecon, epoch)
+                    print("[epoch %d][%d/%d] loss: %.4f PSNR_train: %.4f" %
+                          (epoch + 1, i + 1, len(train_dataloader), loss.item(), psnr_train))
                 
                 step += 1
 
