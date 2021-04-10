@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from data.transform import CustomTransform
 
 class ImageLoader(data.Dataset):
-    def __init__(self, file_path, size=180, mode="train", noise="gaussian"):
+    def __init__(self, file_path, size=50, mode="train", noise="gaussian"):
         self.file_path = os.path.join(file_path, mode)
         self.noise = noise
         self.transforms = CustomTransform(size, noise)

@@ -7,13 +7,15 @@ class CustomTransform(object):
         self.size = size
         self.mode = mode
         self.gt_transform = transforms.Compose([
-            transforms.Resize((self.size, self.size), interpolation=2),
+            # transforms.Resize((self.size, self.size), interpolation=2),
+            transforms.RandomCrop(self.size),
             transforms.ToTensor(),
             # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
         if self.mode == "gaussian":
             self.transform = transforms.Compose([
-                transforms.Resize((self.size, self.size), interpolation=2),
+                # transforms.Resize((self.size, self.size), interpolation=2),
+                transforms.RandomCrop(self.size),
                 transforms.ToTensor(),
                 transforms.Lambda(gaussian_noise),
                 # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
