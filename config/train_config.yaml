@@ -15,7 +15,7 @@ num_workers: 16
 tb_step: 50
 
 train_size: 50
-valudation_size: 180
+validation_size: 180
 noise: gaussian
 lr: 0.0001
 
