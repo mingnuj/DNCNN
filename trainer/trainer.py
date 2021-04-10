@@ -43,9 +43,9 @@ class Trainer:
         if not os.path.exists(self.config["save_path"]):
             os.mkdir(self.config["save_path"])
 
-        train_data = ImageLoader(self.config["train_data_path"], self.config["input_size"],
+        train_data = ImageLoader(self.config["data_path"], self.config["train_size"],
                                  "train",  self.config["noise"])
-        val_data = ImageLoader(self.config["train_data_path"], self.config["input_size"],
+        val_data = ImageLoader(self.config["data_path"], self.config["validation_size"],
                                "validation",  self.config["noise"])
 
         train_dataloader = data.DataLoader(train_data, batch_size=self.batch_size, shuffle=True)
@@ -129,6 +129,14 @@ class Trainer:
                     out_val = torch.clamp(val_image - preds, 0., 1.)
                     psnr_val += batch_PSNR(out_val, val_image, 1.)
 
+                    val_Img = tvutils.make_grid(gt.data, nrow=8, normalize=True, scale_each=True)
+                    val_Imgn = tvutils.make_grid(val_image.data, nrow=8, normalize=True, scale_each=True)
+                    val_Irecon = tvutils.make_grid(out_val.data, nrow=8, normalize=True, scale_each=True)
+                    writer.add_image('clean image', val_Img, epoch)
+                    writer.add_image('noisy image', val_Imgn, epoch)
+                    writer.add_image('validation reconstructed image', val_Irecon, epoch)
+
                 psnr_val /= len(val_dataloader)
                 print("\n[epoch %d] PSNR_val: %.4f" % (epoch + 1, psnr_val))
                 writer.add_scalar('PSNR on validation data', psnr_val, epoch)
+
